@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nesti — a nest for what's coming</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    /* Petal Rose — default */
+    --bg:           #FBF6F1;
+    --bg-soft:      #F5EBE2;
+    --surface:      #FFFFFF;
+    --surface-2:    #FAF3EC;
+    --petal-50:     #FCEBE3;
+    --petal-100:    #F7D9CC;
+    --petal-200:    #EFC0AE;
+    --petal-300:    #E2A48F;
+    --petal-400:    #C97D67;
+    --petal-500:    #B05F4A;
+    --ink-900:      #2A1A14;
+    --ink-700:      #4B342B;
+    --ink-500:      #7A5F53;
+    --ink-300:      #B19B90;
+    --line:         rgba(42,26,20,.09);
+    --line-strong:  rgba(42,26,20,.16);
+
+    --shadow-sm: 0 1px 2px rgba(60,30,20,.04), 0 2px 8px rgba(60,30,20,.04);
+    --shadow-md: 0 4px 14px rgba(60,30,20,.06), 0 10px 36px rgba(60,30,20,.06);
+    --shadow-lg: 0 16px 48px rgba(60,30,20,.10), 0 40px 80px rgba(60,30,20,.06);
+
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+    --r-pill: 999px;
+
+    --font-serif: "Cormorant Garamond", "DM Serif Display", Georgia, serif;
+    --font-sans:  "Manrope", "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-display: var(--font-serif);
+    --font-ar-serif: "Amiri", "Cormorant Garamond", Georgia, serif;
+    --font-ar-sans:  "Tajawal", "Manrope", system-ui, sans-serif;
+
+    --maxw: 1280px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family: var(--font-sans);
+    color: var(--ink-900);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* App entry */
+  #app{ min-height:100vh; display:flex; flex-direction:column; }
+
+  /* Display helpers used across pages */
+  .display{
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: var(--ink-900);
+  }
+  .display.italic{ font-style: italic; }
+
+  /* Buttons */
+  .btn{
+    appearance:none; border:0; cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family: var(--font-sans);
+    font-weight:500; font-size:14px; letter-spacing:.01em;
+    padding: 12px 22px; border-radius: var(--r-pill);
+    transition: transform .15s ease, background .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease;
+    white-space: nowrap;
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn-primary{ background: var(--ink-900); color: #FBF6F1; }
+  .btn-primary:hover{ background: #1B0E08; }
+  .btn-rose{ background: var(--petal-400); color: #fff; }
+  .btn-rose:hover{ background: var(--petal-500); }
+  .btn-outline{ background: transparent; color: var(--ink-900); border:1px solid var(--ink-900); }
+  .btn-outline:hover{ background: var(--ink-900); color: var(--bg); }
+  .btn-soft{ background: var(--petal-50); color: var(--petal-500); }
+  .btn-soft:hover{ background: var(--petal-100); }
+  .btn-ghost{ background: transparent; color: var(--ink-700); }
+  .btn-ghost:hover{ background: rgba(42,26,20,.06); }
+  .btn-lg{ padding: 16px 28px; font-size: 15px; }
+  .btn-sm{ padding: 8px 14px; font-size: 13px; }
+  .btn-icon{ width:40px; height:40px; padding:0; border-radius:var(--r-pill); }
+
+  /* Inputs */
+  .input{
+    width:100%;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    color: var(--ink-900);
+    border-radius: 12px;
+    padding: 13px 16px;
+    font: 14px/1.4 var(--font-sans);
+    transition: border .2s, box-shadow .2s;
+  }
+  .input:focus{ outline:none; border-color: var(--petal-300); box-shadow: 0 0 0 4px var(--petal-50); }
+  .input::placeholder{ color: var(--ink-300); }
+  .field-label{
+    display:block; font-size:12px; font-weight:500;
+    color: var(--ink-700); margin-bottom:6px;
+    letter-spacing: .02em;
+  }
+
+  /* Card */
+  .card{ background: var(--surface); border-radius: var(--r-lg); border: 1px solid var(--line); }
+  .card-soft{ background: var(--surface-2); border-radius: var(--r-lg); }
+
+  /* Chip */
+  .chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding: 7px 14px; border-radius: var(--r-pill);
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 13px; color: var(--ink-700);
+    cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .chip:hover{ border-color: var(--line-strong); }
+  .chip.active{ background: var(--ink-900); color: var(--bg); border-color: var(--ink-900); }
+  .chip.petal.active{ background: var(--petal-400); border-color: var(--petal-400); color:#fff; }
+
+  /* Container */
+  .container{ width:100%; max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 720px){ .container{ padding: 0 18px; } }
+
+  /* Scrollbars in horizontal rails */
+  .hide-scrollbar{ scrollbar-width: none; }
+  .hide-scrollbar::-webkit-scrollbar{ display:none; }
+
+  /* Anim primitives */
+  @keyframes nesti-fade-in {
+    from { opacity:0; transform: translateY(8px); }
+    to   { opacity:1; transform: none; }
+  }
+  .fade-in{ animation: nesti-fade-in .35s ease both; }
+
+  @keyframes nesti-pop {
+    0%   { transform: scale(.85); opacity: 0; }
+    60%  { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  .pop{ animation: nesti-pop .35s cubic-bezier(.2,.8,.2,1.05) both; }
+
+  /* Skeleton placeholder shimmer for product imagery */
+  .placeholder{
+    position: relative; overflow:hidden;
+    background: var(--petal-50);
+  }
+  .placeholder::after{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(80% 60% at 50% 40%, rgba(255,255,255,.45), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* Tweaks-driven theme overrides (data-theme on <html>) */
+  html[data-palette="sand"]{
+    --petal-50:  #F7EFE2;
+    --petal-100: #EEDFC3;
+    --petal-200: #E1C997;
+    --petal-300: #C9A56C;
+    --petal-400: #A37B43;
+    --petal-500: #7C5828;
+    --bg:        #FAF5EC;
+    --bg-soft:   #F2E9D7;
+    --surface-2: #F6EFE0;
+  }
+  html[data-palette="sage"]{
+    --petal-50:  #E9EFE5;
+    --petal-100: #D4DECA;
+    --petal-200: #B6C5A6;
+    --petal-300: #92A57F;
+    --petal-400: #6E8459;
+    --petal-500: #4C603C;
+    --bg:        #F5F3EC;
+    --bg-soft:   #E8EBE0;
+    --surface-2: #EEF1E5;
+  }
+  html[data-type="sans"]{
+    --font-display: var(--font-sans);
+  }
+  html[data-type="mixed"]{
+    --font-display: "Cormorant Garamond", Georgia, serif;
+  }
+
+  /* Toast */
+  .toast-wrap{
+    position: fixed; left:50%; bottom: 32px; transform: translateX(-50%);
+    z-index: 999; display:flex; flex-direction:column; gap:8px; pointer-events:none;
+  }
+  .toast{
+    background: var(--ink-900); color: var(--bg);
+    padding: 12px 18px; border-radius: var(--r-pill);
+    font-size: 13px; font-weight: 500;
+    box-shadow: var(--shadow-md);
+    display:inline-flex; align-items:center; gap:10px;
+    animation: nesti-fade-in .25s ease both;
+    pointer-events: auto;
+  }
+
+  /* Arabic: swap fonts when html[lang="ar"] */
+  html[lang="ar"] body{
+    font-family: var(--font-ar-sans);
+  }
+  html[lang="ar"] .display{
+    font-family: var(--font-ar-serif);
+    letter-spacing: 0;
+    font-style: normal !important;
+  }
+  html[lang="ar"] .display.italic{
+    font-style: normal !important;
+  }
+  /* Flip arrow icons in RTL */
+  html[dir="rtl"] .icon-flip{ transform: scaleX(-1); }
+
+  /* Selection */
+  ::selection{ background: var(--petal-200); color: var(--ink-900); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+  // Direct-manipulation-editable tweak defaults
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": "petal",
+    "type": "serif",
+    "hero": "split"
+  }/*EDITMODE-END*/;
+</script>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- Modules: order matters -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="nesti-data.jsx"></script>
+<script type="text/babel" src="nesti-i18n.jsx"></script>
+<script type="text/babel" src="nesti-ui.jsx"></script>
+<script type="text/babel" src="nesti-home.jsx"></script>
+<script type="text/babel" src="nesti-detail.jsx"></script>
+<script type="text/babel" src="nesti-cart.jsx"></script>
+<script type="text/babel" src="nesti-auth.jsx"></script>
+<script type="text/babel" src="nesti-wishlist.jsx"></script>
+<script type="text/babel" src="nesti-guest.jsx"></script>
+<script type="text/babel" src="nesti-gift-checkout.jsx"></script>
+<script type="text/babel" src="nesti-app.jsx"></script>
+
+</body>
+</html>
