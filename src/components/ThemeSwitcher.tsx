@@ -3,7 +3,7 @@
 import { useNestiTheme, THEME_COLORS, ThemeKey } from '@/lib/theme'
 
 export function ThemeSwitcher() {
-  const { theme, setTheme, color } = useNestiTheme()
+  const { theme, setTheme } = useNestiTheme()
 
   return (
     <div style={styles.row}>
@@ -15,9 +15,9 @@ export function ThemeSwitcher() {
             onClick={() => setTheme(key)}
             style={{
               ...styles.btn,
-              background: active ? 'white' : 'rgba(255,255,255,0.15)',
-              color: active ? color : 'white',
-              borderColor: active ? 'white' : 'rgba(255,255,255,0.5)',
+              background: active ? THEME_COLORS[key].primary : 'white',
+              color: active ? 'white' : '#333',
+              borderColor: THEME_COLORS[key].primary,
             }}
           >
             {THEME_COLORS[key].label}
@@ -29,7 +29,7 @@ export function ThemeSwitcher() {
 }
 
 const styles: Record<string, React.CSSProperties> = {
-  row: { display: 'flex', gap: 10, justifyContent: 'center', padding: '16px 0 4px' },
+  row: { display: 'flex', gap: 10, justifyContent: 'center', padding: '20px 0' },
   btn: {
     padding: '10px 20px',
     borderRadius: 999,
